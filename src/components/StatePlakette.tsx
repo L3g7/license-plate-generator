@@ -33,7 +33,9 @@ const STATE_IMAGE_MAP: Record<GermanState, string> = {
 
 export default function StatePlakette({ state, city = '', scale = 1, isHovering = false, tilt = { rotateX: 0, rotateY: 0 } }: StatePlaketteProps) {
   const size = 42 * scale;
-  const imageName = STATE_IMAGE_MAP[state];
+  
+  // Get image path and names for German states
+  const imagePath = `/wappen/de/${STATE_IMAGE_MAP[state]}.svg`;
   const cityText = city.toUpperCase();
   const stateName = STATE_NAMES[state].toUpperCase();
   
@@ -171,7 +173,7 @@ export default function StatePlakette({ state, city = '', scale = 1, isHovering 
         
         {/* Coat of arms in center - no white background, pattern shows through */}
         <image
-          href={`/wappen/${imageName}.svg`}
+          href={imagePath}
           x="25"
           y="25"
           width="50"
