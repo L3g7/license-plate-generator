@@ -92,7 +92,7 @@ function getCountryFeatures(country: string): {
 
 const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
   ({ config, scale = 1 }, ref) => {
-    const { cityCode, letters, numbers, suffix, showStatePlakette, showHUPlakette, state, city, huYear, huMonth, width, plateStyle, country, fontColor, backgroundColor, plateText, rightBandText, seasonalPlate } = config;
+    const { cityCode, letters, numbers, suffix, showStatePlakette, showHUPlakette, state, city, huYear, huMonth, width, plateStyle, plateType, country, fontColor, backgroundColor, plateText, rightBandText, seasonalPlate } = config;
     
     const contentRef = useRef<HTMLDivElement>(null);
     const plateRef = useRef<HTMLDivElement>(null);
@@ -126,7 +126,8 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
       if (typeof document !== 'undefined' && document.fonts) {
         const fontPromises = [
           document.fonts.load('105px EuroPlate'),
-          document.fonts.load('105px "Google Sans"')
+          document.fonts.load('105px "Google Sans"'),
+          document.fonts.load('105px Tratex')
         ];
         
         Promise.all(fontPromises).then(() => {
@@ -170,7 +171,7 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
     const availableWidth = plateWidth - effectiveEuBandWidth - rightBandWidth - seasonalPlateWidth - (borderWidth * 2) - (padding * 2);
     
     // Create a content key that changes when content changes - forces remeasurement
-    const contentKey = `${cityCode}-${letters}-${numbers}-${suffix}-${showStatePlakette}-${showHUPlakette}-${plateText}-${country}-${seasonalPlate?.startMonth}-${seasonalPlate?.endMonth}`;
+    const contentKey = `${cityCode}-${letters}-${numbers}-${suffix}-${showStatePlakette}-${showHUPlakette}-${plateText}-${plateType}-${country}-${seasonalPlate?.startMonth}-${seasonalPlate?.endMonth}`;
     
   // Measure content and calculate compression/width after render AND after font loads
   useLayoutEffect(() => {
@@ -225,7 +226,7 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
       fontWeight: 'normal',
       letterSpacing: `${2 * scale}px`,
       whiteSpace: 'nowrap',
-      fontFamily: 'EuroPlate, sans-serif',
+      fontFamily: country === 'S' ? 'Tratex, Normal' : 'EuroPlate, sans-serif',
     };
     
     // Carbon fiber pattern - woven checkerboard
@@ -329,7 +330,7 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
               backgroundColor: plateBgColor,
               border: `${borderWidth}px solid ${country === 'A' ? 'transparent' : styles.borderColor}`,
               borderRadius: `${8 * scale}px`,
-              fontFamily: 'EuroPlate, sans-serif',
+              fontFamily: country === 'S' ? 'Tratex, Normal' : 'EuroPlate, sans-serif',
               transformStyle: 'preserve-3d',
               overflow: 'hidden',
               boxShadow: styles.is3D 
@@ -610,7 +611,11 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
                   )}
                 </>
               ) : (
-                <span style={{ ...textStyle, transform: 'translateZ(15px)', transformStyle: 'preserve-3d' }}>{plateText || ''}</span>
+                <span style={{ ...textStyle, transform: 'translateZ(15px)', transformStyle: 'preserve-3d' }}>
+                  {country === 'S' ? (
+                    plateType === 'normal' ? `${plateText.slice(0, 3)}\u2009${plateText.slice(3, 6)}` : plateText
+                  ) : (plateText || '')}
+                </span>
               )}
             </div>
           </div>

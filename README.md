@@ -12,6 +12,7 @@ A Next.js application for generating EU license plates as PNG images – optimiz
 - **27 EU Countries**: Generate plates for all EU member states
 - **Country-specific styling**: Automatic colors/formats per country (yellow for NL/LU/CY, red text for Belgium, etc.)
 - **Right-side bands**: Support for French, Italian, and Portuguese regional codes
+- **Swedish Plates**: Special support with Normal/Personalized types and Tratex font (closest publicly available match)
 
 ### 🇩🇪 German Plates (Full Support)
 - **State Plakette (Landeswappen)**: All 16 German states with authentic coat of arms
@@ -19,6 +20,13 @@ A Next.js application for generating EU license plates as PNG images – optimiz
 - **Seasonal Plates (Saisonkennzeichen)**: Configure start/end months
 - **Special Plates**: Electric (E), Historic (H), and Bundeswehr (Y) plates
 - **City names**: Custom city text on the state plakette
+
+### 🇸🇪 Swedish Plates
+- **Plate Types**: Choose between Normal and Personalized plates
+- **Normal Plates**: 6-character format (e.g., "ABC123") with automatic spacing ("ABC 123")
+- **Personalized Plates**: Up to 7 characters of custom text
+- **TRATEX Font**: Closest publicly available match to authentic Swedish license plate typography
+- **Thin Spacing**: Subtle gap between letters and numbers for normal plates
 
 ### 🇦🇹 Austrian Plates
 - All 9 Bundesländer with coat of arms
@@ -30,6 +38,7 @@ A Next.js application for generating EU license plates as PNG images – optimiz
 ### 🎨 Customization Options
 - **Plate Width**: Standard (520mm) or compact
 - **Plate Styles**: Normal, 3D Black (matte/glossy), 3D Carbon (matte/glossy)
+- **Plate Types**: Normal or Personalized (Swedish plates only)
 - **Custom Colors**: Configurable font and background colors
 - **EuroPlate Font**: Authentic appearance with FE-Schrift typeface
 
@@ -43,7 +52,7 @@ A Next.js application for generating EU license plates as PNG images – optimiz
 - **Language**: TypeScript
 - **UI**: React 19 with Tailwind CSS 4
 - **Screenshot**: modern-screenshot for cross-browser PNG export
-- **Font**: EuroPlate TTF (FE-Schrift)
+- **Font**: EuroPlate TTF (FE-Schrift), TRATEX (closest publicly available match for Swedish plates)
 
 ## Getting Started
 

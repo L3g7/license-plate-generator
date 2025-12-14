@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { domToPng } from 'modern-screenshot';
-import { GermanPlateConfig, GermanState, STATE_NAMES, AustrianState, AUSTRIAN_STATE_NAMES, HungarianState, SlovakState, SwissCanton, SWISS_CANTON_NAMES, PlateWidth, PlateSuffix, PlateStyle, EUCountry } from '@/types/plate';
+import { GermanPlateConfig, GermanState, STATE_NAMES, AustrianState, AUSTRIAN_STATE_NAMES, HungarianState, SlovakState, SwissCanton, SWISS_CANTON_NAMES, PlateWidth, PlateSuffix, PlateStyle, PlateType, EUCountry } from '@/types/plate';
 import LicensePlate from './LicensePlate';
 import { useTranslation, Language, LANGUAGE_NAMES, LANGUAGE_FLAGS, SUPPORTED_LANGUAGES } from '@/i18n';
 
@@ -105,6 +105,7 @@ const DEFAULT_CONFIG: GermanPlateConfig = {
   huMonth: 7,
   width: 'standard',
   plateStyle: 'normal',
+  plateType: 'normal',
   country: 'D',
   fontColor: '#000000',
   backgroundColor: '#FFFFFF',
@@ -139,6 +140,7 @@ function parseConfigFromHash(): GermanPlateConfig {
     huMonth: parseInt(params.get('huMonth') || String(DEFAULT_CONFIG.huMonth)),
     width: (params.get('width') as PlateWidth) || DEFAULT_CONFIG.width,
     plateStyle: (params.get('style') as PlateStyle) || DEFAULT_CONFIG.plateStyle,
+    plateType: (params.get('plateType') as PlateType) || DEFAULT_CONFIG.plateType,
     country: (params.get('country') as EUCountry) || DEFAULT_CONFIG.country,
     fontColor: params.get('fontColor') || DEFAULT_CONFIG.fontColor,
     backgroundColor: params.get('bgColor') || DEFAULT_CONFIG.backgroundColor,
@@ -163,6 +165,7 @@ function configToHash(config: GermanPlateConfig): string {
   params.set('huMonth', String(config.huMonth));
   if (config.width !== 'standard') params.set('width', config.width);
   if (config.plateStyle !== 'normal') params.set('style', config.plateStyle);
+  if (config.plateType !== 'normal') params.set('plateType', config.plateType);
   if (config.country !== 'D') params.set('country', config.country);
   if (config.fontColor !== '#000000') params.set('fontColor', config.fontColor);
   if (config.backgroundColor !== '#FFFFFF') params.set('bgColor', config.backgroundColor);
@@ -224,6 +227,26 @@ export default function PlateGenerator() {
     // Use replaceState to avoid polluting history on every keystroke
     window.history.replaceState(null, '', `#${newHash}`);
   }, [config, isInitialized]);
+
+  // Set country-specific defaults when country or plateType changes
+  useEffect(() => {
+    if (!isInitialized) return;
+    setConfig(prev => {
+      const newConfig = { ...prev };
+      if (prev.country === 'S') {
+        if (prev.plateType === 'normal') {
+          // Set default normal format
+          newConfig.plateText = 'ABC123';
+        }
+      } else {
+        // Reset when not Sweden
+        if (prev.plateText === 'ABC123') {
+          newConfig.plateText = DEFAULT_CONFIG.plateText;
+        }
+      }
+      return newConfig;
+    });
+  }, [config.country, config.plateType, isInitialized]);
 
   // Generate plate texture for 3D preview
   useEffect(() => {
@@ -429,14 +452,19 @@ export default function PlateGenerator() {
             {!['D', 'A', 'H', 'SK', 'CH'].includes(config.country) && (
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">
-                  {t.plateText}
+                  {config.country === 'S' ? (config.plateType === 'normal' ? t.lettersAndNumbers : t.personalizedText) : t.plateText}
                 </label>
                 <input
                   type="text"
                   value={config.plateText}
-                  onChange={(e) => handleChange('plateText', e.target.value.toUpperCase())}
+                  onChange={(e) => handleChange('plateText', e.target.value.toUpperCase().slice(0, config.country === 'S' ? (config.plateType === 'normal' ? 6 : 7) : undefined))}
                   className="modern-input"
-                  placeholder="AB 123 CD"
+                  placeholder={
+                    config.country === 'S' 
+                      ? (config.plateType === 'normal' ? 'ABC123' : 'MYPLATE')
+                      : 'AB 123 CD'
+                  }
+                  maxLength={config.country === 'S' ? (config.plateType === 'normal' ? 6 : 7) : undefined}
                 />
               </div>
             )}
@@ -684,6 +712,23 @@ export default function PlateGenerator() {
                 <option value="3d-carbon-matte">{t.style3DCarbonMatte}</option>
               </select>
             </div>
+
+            {/* Plate Type Selection - only for Sweden */}
+            {config.country === 'S' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">
+                  {t.plateType}
+                </label>
+                <select
+                  value={config.plateType}
+                  onChange={(e) => handleChange('plateType', e.target.value as PlateType)}
+                  className="modern-select"
+                >
+                  <option value="normal">{t.plateTypeNormal}</option>
+                  <option value="personalized">{t.plateTypePersonalized}</option>
+                </select>
+              </div>
+            )}
 
             {/* Font Color */}
             <div>
