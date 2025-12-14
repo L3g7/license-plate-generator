@@ -29,8 +29,8 @@ export const LANGUAGE_FLAGS: Record<Language, string> = {
   cs: '🇨🇿',
 };
 
-// EU Country codes type (including Switzerland)
-export type EUCountryCode = 'D' | 'A' | 'B' | 'BG' | 'CH' | 'HR' | 'CY' | 'CZ' | 'DK' | 'EST' | 'FIN' | 'F' | 'GR' | 'H' | 'IRL' | 'I' | 'LV' | 'LT' | 'L' | 'M' | 'NL' | 'PL' | 'P' | 'RO' | 'SK' | 'SLO' | 'E' | 'S';
+// Country codes type
+export type CountryCode = 'D' | 'A' | 'B' | 'BG' | 'CH' | 'HR' | 'CY' | 'CZ' | 'DK' | 'EST' | 'FIN' | 'F' | 'GB' | 'GR' | 'H' | 'IRL' | 'I' | 'LV' | 'LT' | 'L' | 'M' | 'NL' | 'PL' | 'P' | 'RO' | 'SK' | 'SLO' | 'E' | 'S';
 
 export interface Translations {
   // Page title
@@ -99,7 +99,7 @@ export interface Translations {
   months: string[];
   
   // Country names
-  countries: Record<EUCountryCode, string>;
+  countries: Record<CountryCode, string>;
 }
 
 const translations: Record<Language, Translations> = {
@@ -148,7 +148,7 @@ const translations: Record<Language, Translations> = {
     countries: {
       'D': 'Deutschland', 'A': 'Österreich', 'B': 'Belgien', 'BG': 'Bulgarien', 'CH': 'Schweiz', 'HR': 'Kroatien',
       'CY': 'Zypern', 'CZ': 'Tschechien', 'DK': 'Dänemark', 'EST': 'Estland', 'FIN': 'Finnland',
-      'F': 'Frankreich', 'GR': 'Griechenland', 'H': 'Ungarn', 'IRL': 'Irland', 'I': 'Italien',
+      'F': 'Frankreich', 'GB': 'Vereinigtes Königreich', 'GR': 'Griechenland', 'H': 'Ungarn', 'IRL': 'Irland', 'I': 'Italien',
       'LV': 'Lettland', 'LT': 'Litauen', 'L': 'Luxemburg', 'M': 'Malta', 'NL': 'Niederlande',
       'PL': 'Polen', 'P': 'Portugal', 'RO': 'Rumänien', 'SK': 'Slowakei', 'SLO': 'Slowenien',
       'E': 'Spanien', 'S': 'Schweden',
@@ -199,7 +199,7 @@ const translations: Record<Language, Translations> = {
     countries: {
       'D': 'Germany', 'A': 'Austria', 'B': 'Belgium', 'BG': 'Bulgaria', 'CH': 'Switzerland', 'HR': 'Croatia',
       'CY': 'Cyprus', 'CZ': 'Czech Republic', 'DK': 'Denmark', 'EST': 'Estonia', 'FIN': 'Finland',
-      'F': 'France', 'GR': 'Greece', 'H': 'Hungary', 'IRL': 'Ireland', 'I': 'Italy',
+      'F': 'France', 'GB': 'United Kingdom', 'GR': 'Greece', 'H': 'Hungary', 'IRL': 'Ireland', 'I': 'Italy',
       'LV': 'Latvia', 'LT': 'Lithuania', 'L': 'Luxembourg', 'M': 'Malta', 'NL': 'Netherlands',
       'PL': 'Poland', 'P': 'Portugal', 'RO': 'Romania', 'SK': 'Slovakia', 'SLO': 'Slovenia',
       'E': 'Spain', 'S': 'Sweden',
@@ -250,7 +250,7 @@ const translations: Record<Language, Translations> = {
     countries: {
       'D': 'Allemagne', 'A': 'Autriche', 'B': 'Belgique', 'BG': 'Bulgarie', 'CH': 'Suisse', 'HR': 'Croatie',
       'CY': 'Chypre', 'CZ': 'Tchéquie', 'DK': 'Danemark', 'EST': 'Estonie', 'FIN': 'Finlande',
-      'F': 'France', 'GR': 'Grèce', 'H': 'Hongrie', 'IRL': 'Irlande', 'I': 'Italie',
+      'F': 'France', 'GB': 'Royaume-Uni', 'GR': 'Grèce', 'H': 'Hongrie', 'IRL': 'Irlande', 'I': 'Italie',
       'LV': 'Lettonie', 'LT': 'Lituanie', 'L': 'Luxembourg', 'M': 'Malte', 'NL': 'Pays-Bas',
       'PL': 'Pologne', 'P': 'Portugal', 'RO': 'Roumanie', 'SK': 'Slovaquie', 'SLO': 'Slovénie',
       'E': 'Espagne', 'S': 'Suède',
@@ -301,7 +301,7 @@ const translations: Record<Language, Translations> = {
     countries: {
       'D': 'Alemania', 'A': 'Austria', 'B': 'Bélgica', 'BG': 'Bulgaria', 'CH': 'Suiza', 'HR': 'Croacia',
       'CY': 'Chipre', 'CZ': 'Chequia', 'DK': 'Dinamarca', 'EST': 'Estonia', 'FIN': 'Finlandia',
-      'F': 'Francia', 'GR': 'Grecia', 'H': 'Hungría', 'IRL': 'Irlanda', 'I': 'Italia',
+      'F': 'Francia', 'GB': 'Reino Unido', 'GR': 'Grecia', 'H': 'Hungría', 'IRL': 'Irlanda', 'I': 'Italia',
       'LV': 'Letonia', 'LT': 'Lituania', 'L': 'Luxemburgo', 'M': 'Malta', 'NL': 'Países Bajos',
       'PL': 'Polonia', 'P': 'Portugal', 'RO': 'Rumanía', 'SK': 'Eslovaquia', 'SLO': 'Eslovenia',
       'E': 'España', 'S': 'Suecia',
@@ -352,7 +352,7 @@ const translations: Record<Language, Translations> = {
     countries: {
       'D': 'Germania', 'A': 'Austria', 'B': 'Belgio', 'BG': 'Bulgaria', 'CH': 'Svizzera', 'HR': 'Croazia',
       'CY': 'Cipro', 'CZ': 'Cechia', 'DK': 'Danimarca', 'EST': 'Estonia', 'FIN': 'Finlandia',
-      'F': 'Francia', 'GR': 'Grecia', 'H': 'Ungheria', 'IRL': 'Irlanda', 'I': 'Italia',
+      'F': 'Francia', 'GB': 'Regno Unito', 'GR': 'Grecia', 'H': 'Ungheria', 'IRL': 'Irlanda', 'I': 'Italia',
       'LV': 'Lettonia', 'LT': 'Lituania', 'L': 'Lussemburgo', 'M': 'Malta', 'NL': 'Paesi Bassi',
       'PL': 'Polonia', 'P': 'Portogallo', 'RO': 'Romania', 'SK': 'Slovacchia', 'SLO': 'Slovenia',
       'E': 'Spagna', 'S': 'Svezia',
@@ -403,7 +403,7 @@ const translations: Record<Language, Translations> = {
     countries: {
       'D': 'Duitsland', 'A': 'Oostenrijk', 'B': 'België', 'BG': 'Bulgarije', 'CH': 'Zwitserland', 'HR': 'Kroatië',
       'CY': 'Cyprus', 'CZ': 'Tsjechië', 'DK': 'Denemarken', 'EST': 'Estland', 'FIN': 'Finland',
-      'F': 'Frankrijk', 'GR': 'Griekenland', 'H': 'Hongarije', 'IRL': 'Ierland', 'I': 'Italië',
+      'F': 'Frankrijk', 'GB': 'Verenigd Koninkrijk', 'GR': 'Griekenland', 'H': 'Hongarije', 'IRL': 'Ierland', 'I': 'Italië',
       'LV': 'Letland', 'LT': 'Litouwen', 'L': 'Luxemburg', 'M': 'Malta', 'NL': 'Nederland',
       'PL': 'Polen', 'P': 'Portugal', 'RO': 'Roemenië', 'SK': 'Slowakije', 'SLO': 'Slovenië',
       'E': 'Spanje', 'S': 'Zweden',
@@ -454,7 +454,7 @@ const translations: Record<Language, Translations> = {
     countries: {
       'D': 'Niemcy', 'A': 'Austria', 'B': 'Belgia', 'BG': 'Bułgaria', 'CH': 'Szwajcaria', 'HR': 'Chorwacja',
       'CY': 'Cypr', 'CZ': 'Czechy', 'DK': 'Dania', 'EST': 'Estonia', 'FIN': 'Finlandia',
-      'F': 'Francja', 'GR': 'Grecja', 'H': 'Węgry', 'IRL': 'Irlandia', 'I': 'Włochy',
+      'F': 'Francja', 'GB': 'Wielka Brytania', 'GR': 'Grecja', 'H': 'Węgry', 'IRL': 'Irlandia', 'I': 'Włochy',
       'LV': 'Łotwa', 'LT': 'Litwa', 'L': 'Luksemburg', 'M': 'Malta', 'NL': 'Holandia',
       'PL': 'Polska', 'P': 'Portugalia', 'RO': 'Rumunia', 'SK': 'Słowacja', 'SLO': 'Słowenia',
       'E': 'Hiszpania', 'S': 'Szwecja',
@@ -505,7 +505,7 @@ const translations: Record<Language, Translations> = {
     countries: {
       'D': 'Alemanha', 'A': 'Áustria', 'B': 'Bélgica', 'BG': 'Bulgária', 'CH': 'Suíça', 'HR': 'Croácia',
       'CY': 'Chipre', 'CZ': 'Chéquia', 'DK': 'Dinamarca', 'EST': 'Estónia', 'FIN': 'Finlândia',
-      'F': 'França', 'GR': 'Grécia', 'H': 'Hungria', 'IRL': 'Irlanda', 'I': 'Itália',
+      'F': 'França', 'GB': 'Reino Unido', 'GR': 'Grécia', 'H': 'Hungria', 'IRL': 'Irlanda', 'I': 'Itália',
       'LV': 'Letónia', 'LT': 'Lituânia', 'L': 'Luxemburgo', 'M': 'Malta', 'NL': 'Países Baixos',
       'PL': 'Polónia', 'P': 'Portugal', 'RO': 'Roménia', 'SK': 'Eslováquia', 'SLO': 'Eslovénia',
       'E': 'Espanha', 'S': 'Suécia',
@@ -556,7 +556,7 @@ const translations: Record<Language, Translations> = {
     countries: {
       'D': 'Tyskland', 'A': 'Österrike', 'B': 'Belgien', 'BG': 'Bulgarien', 'CH': 'Schweiz', 'HR': 'Kroatien',
       'CY': 'Cypern', 'CZ': 'Tjeckien', 'DK': 'Danmark', 'EST': 'Estland', 'FIN': 'Finland',
-      'F': 'Frankrike', 'GR': 'Grekland', 'H': 'Ungern', 'IRL': 'Irland', 'I': 'Italien',
+      'F': 'Frankrike', 'GB': 'Storbritannien', 'GR': 'Grekland', 'H': 'Ungern', 'IRL': 'Irland', 'I': 'Italien',
       'LV': 'Lettland', 'LT': 'Litauen', 'L': 'Luxemburg', 'M': 'Malta', 'NL': 'Nederländerna',
       'PL': 'Polen', 'P': 'Portugal', 'RO': 'Rumänien', 'SK': 'Slovakien', 'SLO': 'Slovenien',
       'E': 'Spanien', 'S': 'Sverige',
@@ -607,7 +607,7 @@ const translations: Record<Language, Translations> = {
     countries: {
       'D': 'Německo', 'A': 'Rakousko', 'B': 'Belgie', 'BG': 'Bulharsko', 'CH': 'Švýcarsko', 'HR': 'Chorvatsko',
       'CY': 'Kypr', 'CZ': 'Česko', 'DK': 'Dánsko', 'EST': 'Estonsko', 'FIN': 'Finsko',
-      'F': 'Francie', 'GR': 'Řecko', 'H': 'Maďarsko', 'IRL': 'Irsko', 'I': 'Itálie',
+      'F': 'Francie', 'GB': 'Spojené království', 'GR': 'Řecko', 'H': 'Maďarsko', 'IRL': 'Irsko', 'I': 'Itálie',
       'LV': 'Lotyšsko', 'LT': 'Litva', 'L': 'Lucembursko', 'M': 'Malta', 'NL': 'Nizozemsko',
       'PL': 'Polsko', 'P': 'Portugalsko', 'RO': 'Rumunsko', 'SK': 'Slovensko', 'SLO': 'Slovinsko',
       'E': 'Španělsko', 'S': 'Švédsko',

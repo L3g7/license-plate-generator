@@ -3,6 +3,7 @@
 import React, { forwardRef, useRef, useState, useLayoutEffect, useEffect } from 'react';
 import { GermanPlateConfig, PlateStyle, GermanState, AustrianState, SwissCanton } from '@/types/plate';
 import EUBand from './EUBand';
+import UKBand from './UKBand';
 import StatePlakette from './StatePlakette';
 import AustrianStatePlakette from './AustrianStatePlakette';
 import HungarianCoatOfArms from './HungarianCoatOfArms';
@@ -92,7 +93,7 @@ function getCountryFeatures(country: string): {
 
 const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
   ({ config, scale = 1 }, ref) => {
-    const { cityCode, letters, numbers, suffix, showStatePlakette, showHUPlakette, state, city, huYear, huMonth, width, plateStyle, plateType, country, fontColor, backgroundColor, plateText, rightBandText, seasonalPlate } = config;
+    const { cityCode, letters, numbers, suffix, showStatePlakette, showHUPlakette, state, city, huYear, huMonth, width, plateStyle, plateType, country, fontColor, backgroundColor, plateText, rightBandText, seasonalPlate, showUKFlag, isEV } = config;
     
     const contentRef = useRef<HTMLDivElement>(null);
     const plateRef = useRef<HTMLDivElement>(null);
@@ -127,7 +128,8 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
         const fontPromises = [
           document.fonts.load('105px EuroPlate'),
           document.fonts.load('105px "Google Sans"'),
-          document.fonts.load('105px Tratex')
+          document.fonts.load('105px Tratex'),
+          document.fonts.load('105px UKNumberPlate')
         ];
         
         Promise.all(fontPromises).then(() => {
@@ -162,13 +164,16 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
     const textColor = fontColor;
     const plateBgColor = backgroundColor;
     const redStripeHeight = 2 * scale;
+    const hasUkBand = country === 'GB' && (showUKFlag || isEV);
+    const ukBandWidth = hasUkBand ? 40 * scale : 0; // UK band width when shown
     
     // Available width for content (after EU band, borders, padding, and right band if present)
-    // Switzerland (CH) has no EU band
-    const effectiveEuBandWidth = country === 'CH' ? 0 : euBandWidth;
+    // Switzerland (CH) has no EU band, UK (GB) has UK band instead
+    const effectiveEuBandWidth = (country === 'CH' || country === 'GB') ? 0 : euBandWidth;
+    const effectiveLeftOffset = country === 'GB' ? ukBandWidth : effectiveEuBandWidth;
     const rightBandWidth = countryFeatures.hasRightBand ? euBandWidth : 0;
     const seasonalPlateWidth = (isGermany && seasonalPlate) ? 37 * scale : 0; // Reserve space for seasonal numbers
-    const availableWidth = plateWidth - effectiveEuBandWidth - rightBandWidth - seasonalPlateWidth - (borderWidth * 2) - (padding * 2);
+    const availableWidth = plateWidth - effectiveLeftOffset - rightBandWidth - seasonalPlateWidth - (borderWidth * 2) - (padding * 2);
     
     // Create a content key that changes when content changes - forces remeasurement
     const contentKey = `${cityCode}-${letters}-${numbers}-${suffix}-${showStatePlakette}-${showHUPlakette}-${plateText}-${plateType}-${country}-${seasonalPlate?.startMonth}-${seasonalPlate?.endMonth}`;
@@ -221,12 +226,19 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
     }
   }, [contentKey, availableWidth, scale, fontLoaded, width, euBandWidth, effectiveEuBandWidth, borderWidth, padding, isGermany, seasonalPlate, minCompactWidth, countryFeatures.hasRightBand]);
     
+    // Select font based on country
+    const getFontFamily = () => {
+      if (country === 'S') return 'Tratex, Normal';
+      if (country === 'GB') return 'UKNumberPlate, sans-serif';
+      return 'EuroPlate, sans-serif';
+    };
+    
     const baseTextStyle: React.CSSProperties = {
       fontSize: `${fontSize}px`,
       fontWeight: 'normal',
       letterSpacing: `${2 * scale}px`,
       whiteSpace: 'nowrap',
-      fontFamily: country === 'S' ? 'Tratex, Normal' : 'EuroPlate, sans-serif',
+      fontFamily: getFontFamily(),
     };
     
     // Carbon fiber pattern - woven checkerboard
@@ -330,7 +342,7 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
               backgroundColor: plateBgColor,
               border: `${borderWidth}px solid ${country === 'A' ? 'transparent' : styles.borderColor}`,
               borderRadius: `${8 * scale}px`,
-              fontFamily: country === 'S' ? 'Tratex, Normal' : 'EuroPlate, sans-serif',
+              fontFamily: getFontFamily(),
               transformStyle: 'preserve-3d',
               overflow: 'hidden',
               boxShadow: styles.is3D 
@@ -382,8 +394,8 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
             </>
           )}
           
-          {/* EU Band or German Flag for military - not shown for Switzerland */}
-          {country === 'CH' ? null : country === 'D' && cityCode === 'Y' ? (
+          {/* EU Band or German Flag for military - not shown for Switzerland or UK */}
+          {country === 'CH' || country === 'GB' ? null : country === 'D' && cityCode === 'Y' ? (
             /* German Flag for military plates */
             <div style={{
               position: 'absolute',
@@ -424,7 +436,20 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
               padding: country === 'A' ? `0 ${3 * scale}px` : '0',
               zIndex: 2,
             }}>
-              <EUBand scale={scale} countryCode={country} height={country === 'A' ? '100%' : undefined} noBorderRadius={country === 'A'} showDinGepruft={isGermany} />
+              <EUBand scale={scale} countryCode={country} height={country === 'A' ? '100%' : undefined} noBorderRadius={country === 'A'} showDinGepruft={isGermany} borderRadius={5} />
+            </div>
+          )}
+          
+          {/* UK Band - with flag and UK text, green for EV */}
+          {country === 'GB' && (showUKFlag || isEV) && (
+            <div style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              bottom: 0,
+              zIndex: 2,
+            }}>
+              <UKBand scale={scale} height="100%" showFlag={showUKFlag} isEV={isEV} borderRadius={5} />
             </div>
           )}
           
@@ -457,7 +482,7 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
           <div 
             style={{ 
               position: 'absolute',
-              left: country === 'CH' ? 0 : `${euBandWidth}px`,
+              left: country === 'CH' ? 0 : (country === 'GB' && hasUkBand) ? `${ukBandWidth}px` : country === 'GB' ? 0 : `${euBandWidth}px`,
               right: countryFeatures.hasRightBand ? `${euBandWidth}px` : 0,
               top: 0,
               bottom: 0,

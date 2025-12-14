@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { domToPng } from 'modern-screenshot';
-import { GermanPlateConfig, GermanState, STATE_NAMES, AustrianState, AUSTRIAN_STATE_NAMES, HungarianState, SlovakState, SwissCanton, SWISS_CANTON_NAMES, PlateWidth, PlateSuffix, PlateStyle, PlateType, EUCountry } from '@/types/plate';
+import { GermanPlateConfig, GermanState, STATE_NAMES, AustrianState, AUSTRIAN_STATE_NAMES, HungarianState, SlovakState, SwissCanton, SWISS_CANTON_NAMES, PlateWidth, PlateSuffix, PlateStyle, PlateType, Country } from '@/types/plate';
 import LicensePlate from './LicensePlate';
 import { useTranslation, Language, LANGUAGE_NAMES, LANGUAGE_FLAGS, SUPPORTED_LANGUAGES } from '@/i18n';
 
@@ -10,7 +10,7 @@ import { useTranslation, Language, LANGUAGE_NAMES, LANGUAGE_FLAGS, SUPPORTED_LAN
 const CURRENT_YEAR = new Date().getFullYear();
 
 // Country flag emojis
-const COUNTRY_FLAGS: Record<EUCountry, string> = {
+const COUNTRY_FLAGS: Record<Country, string> = {
   'D': '🇩🇪',
   'A': '🇦🇹',
   'B': '🇧🇪',
@@ -23,6 +23,7 @@ const COUNTRY_FLAGS: Record<EUCountry, string> = {
   'EST': '🇪🇪',
   'FIN': '🇫🇮',
   'F': '🇫🇷',
+  'GB': '🇬🇧',
   'GR': '🇬🇷',
   'H': '🇭🇺',
   'IRL': '🇮🇪',
@@ -42,7 +43,7 @@ const COUNTRY_FLAGS: Record<EUCountry, string> = {
 };
 
 // Country-specific default colors and settings
-function getCountryDefaults(country: EUCountry): { fontColor: string; backgroundColor: string; rightBandText: string } {
+function getCountryDefaults(country: Country): { fontColor: string; backgroundColor: string; rightBandText: string } {
   switch (country) {
     // Yellow plates
     case 'NL': // Netherlands - yellow
@@ -51,6 +52,8 @@ function getCountryDefaults(country: EUCountry): { fontColor: string; background
       return { fontColor: '#000000', backgroundColor: '#FCD116', rightBandText: '' };
     case 'CY': // Cyprus - yellow
       return { fontColor: '#000000', backgroundColor: '#F4C430', rightBandText: '' };
+    case 'GB': // United Kingdom - yellow (rear plate)
+      return { fontColor: '#000000', backgroundColor: '#F7D117', rightBandText: '' };
     
     // Red text plates
     case 'B': // Belgium - white with red text
@@ -112,6 +115,8 @@ const DEFAULT_CONFIG: GermanPlateConfig = {
   plateText: 'NIKLAS',
   rightBandText: '',
   seasonalPlate: null,
+  showUKFlag: false,
+  isEV: false,
 };
 
 // Parse config from URL hash
@@ -141,12 +146,14 @@ function parseConfigFromHash(): GermanPlateConfig {
     width: (params.get('width') as PlateWidth) || DEFAULT_CONFIG.width,
     plateStyle: (params.get('style') as PlateStyle) || DEFAULT_CONFIG.plateStyle,
     plateType: (params.get('plateType') as PlateType) || DEFAULT_CONFIG.plateType,
-    country: (params.get('country') as EUCountry) || DEFAULT_CONFIG.country,
+    country: (params.get('country') as Country) || DEFAULT_CONFIG.country,
     fontColor: params.get('fontColor') || DEFAULT_CONFIG.fontColor,
     backgroundColor: params.get('bgColor') || DEFAULT_CONFIG.backgroundColor,
     plateText: params.get('text') || DEFAULT_CONFIG.plateText,
     rightBandText: params.get('rightBand') || DEFAULT_CONFIG.rightBandText,
     seasonalPlate,
+    showUKFlag: params.get('ukFlag') === '1',
+    isEV: params.get('ev') === '1',
   };
 }
 
@@ -175,6 +182,8 @@ function configToHash(config: GermanPlateConfig): string {
     params.set('seasonStart', String(config.seasonalPlate.startMonth));
     params.set('seasonEnd', String(config.seasonalPlate.endMonth));
   }
+  if (config.showUKFlag) params.set('ukFlag', '1');
+  if (config.isEV) params.set('ev', '1');
   return params.toString();
 }
 
@@ -421,7 +430,7 @@ export default function PlateGenerator() {
               <select
                 value={config.country}
                 onChange={(e) => {
-                  const newCountry = e.target.value as EUCountry;
+                  const newCountry = e.target.value as Country;
                   const countryDefaults = getCountryDefaults(newCountry);
                   setConfig(prev => ({
                     ...prev,
@@ -430,7 +439,7 @@ export default function PlateGenerator() {
                     backgroundColor: countryDefaults.backgroundColor,
                     rightBandText: countryDefaults.rightBandText,
                     // Reset state to appropriate default when switching countries
-                    state: newCountry === 'A' ? 'W' : newCountry === 'H' ? 'HU' : newCountry === 'SK' ? 'SK' : newCountry === 'CH' ? 'ZH' : 'BY',
+                    state: newCountry === 'A' ? 'W' : newCountry === 'H' ? 'HU' : newCountry === 'SK' ? 'SK' : newCountry === 'CH' ? 'ZH' : 'NW',
                     // Reset cityCode for Swiss plates to canton code
                     cityCode: newCountry === 'CH' ? 'ZH' : prev.cityCode,
                     numbers: newCountry === 'CH' ? '123456' : prev.numbers,
@@ -442,7 +451,7 @@ export default function PlateGenerator() {
               >
                 {Object.keys(t.countries).map((code) => (
                   <option key={code} value={code}>
-                    {COUNTRY_FLAGS[code as EUCountry]} {t.countries[code as keyof typeof t.countries]} ({code})
+                    {COUNTRY_FLAGS[code as Country]} {t.countries[code as keyof typeof t.countries]} ({code})
                   </option>
                 ))}
               </select>
@@ -789,6 +798,30 @@ export default function PlateGenerator() {
                   <option value="E">E (Elektro)</option>
                   <option value="H">H (Oldtimer)</option>
                 </select>
+              </div>
+            )}
+
+            {/* UK Options */}
+            {config.country === 'GB' && (
+              <div className="flex flex-col gap-3">
+                <label className="flex items-center gap-3 text-gray-700 dark:text-gray-300 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={config.showUKFlag}
+                    onChange={(e) => handleChange('showUKFlag', e.target.checked)}
+                    className="w-5 h-5 rounded-lg text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 transition-all"
+                  />
+                  <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">🇬🇧 Show UK Flag + Text</span>
+                </label>
+                <label className="flex items-center gap-3 text-gray-700 dark:text-gray-300 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={config.isEV}
+                    onChange={(e) => handleChange('isEV', e.target.checked)}
+                    className="w-5 h-5 rounded-lg text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-600 transition-all"
+                  />
+                  <span className="group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">⚡ Electric Vehicle (Green Strip)</span>
+                </label>
               </div>
             )}
           </div>

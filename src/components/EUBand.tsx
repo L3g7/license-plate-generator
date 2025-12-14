@@ -1,20 +1,22 @@
 'use client';
 
 import React from 'react';
-import { EUCountry } from '@/types/plate';
+import { Country } from '@/types/plate';
 
 interface EUBandProps {
   scale?: number;
-  countryCode?: EUCountry;
+  countryCode?: Country;
   height?: number | string;  // Optional height for constrained layouts (e.g., Austria)
   noBorderRadius?: boolean;  // Remove border radius (for Austria)
   showDinGepruft?: boolean;  // Show DIN-GEPRÜFT seal for German plates
+  borderRadius?: number;     // Border radius in scaled pixels (default 5)
 }
 
-export default function EUBand({ scale = 1, countryCode = 'D', height, noBorderRadius = false, showDinGepruft = false }: EUBandProps) {
+export default function EUBand({ scale = 1, countryCode = 'D', height, noBorderRadius = false, showDinGepruft = false, borderRadius = 5 }: EUBandProps) {
   const width = 45 * scale;
   const defaultHeight = 110 * scale;
   const actualHeight = height || defaultHeight;
+  const radius = borderRadius * scale;
   
   return (
     <div 
@@ -27,7 +29,7 @@ export default function EUBand({ scale = 1, countryCode = 'D', height, noBorderR
         width: `${width}px`,
         height: actualHeight,
         backgroundColor: '#003399',
-        borderRadius: noBorderRadius ? '0' : `${6 * scale}px 0 0 ${6 * scale}px`,
+        borderRadius: noBorderRadius ? '0' : `${radius}px 0 0 ${radius}px`,
         padding: `${6 * scale}px ${4 * scale}px`,
       }}
     >

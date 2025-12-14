@@ -17,8 +17,8 @@ export const PLATE_STYLE_NAMES: Record<PlateStyle, string> = {
   '3d-carbon-glossy': '3D Carbon Glänzend',
 };
 
-// EU Countries + Switzerland
-export type EUCountry = 
+// EU Countries + Switzerland + UK
+export type Country = 
   | 'D'   // Germany
   | 'A'   // Austria
   | 'B'   // Belgium
@@ -31,6 +31,7 @@ export type EUCountry =
   | 'EST' // Estonia
   | 'FIN' // Finland
   | 'F'   // France
+  | 'GB'  // United Kingdom
   | 'GR'  // Greece
   | 'H'   // Hungary
   | 'IRL' // Ireland
@@ -48,7 +49,7 @@ export type EUCountry =
   | 'E'   // Spain
   | 'S';  // Sweden
 
-export const EU_COUNTRY_NAMES: Record<EUCountry, string> = {
+export const EU_COUNTRY_NAMES: Record<Country, string> = {
   'D': 'Deutschland',
   'A': 'Österreich',
   'B': 'Belgien',
@@ -61,6 +62,7 @@ export const EU_COUNTRY_NAMES: Record<EUCountry, string> = {
   'EST': 'Estland',
   'FIN': 'Finnland',
   'F': 'Frankreich',
+  'GB': 'Vereinigtes Königreich',
   'GR': 'Griechenland',
   'H': 'Ungarn',
   'IRL': 'Irland',
@@ -81,7 +83,7 @@ export const EU_COUNTRY_NAMES: Record<EUCountry, string> = {
 
 export interface PlateConfig {
   // Common settings for all countries
-  country: EUCountry;
+  country: Country;
   width: PlateWidth;
   plateStyle: PlateStyle;
   plateType: PlateType;
@@ -89,6 +91,8 @@ export interface PlateConfig {
   backgroundColor: string; // Hex color for plate background
   plateText: string;       // Generic plate text for non-German plates
   rightBandText: string;   // Text for right band (France, Italy, Portugal)
+  showUKFlag: boolean;     // Show UK flag + text on left band (UK only)
+  isEV: boolean;           // Electric vehicle - green band for UK
   
   // German-specific settings
   cityCode: string;        // e.g., "M", "B", "HH" or "Y" for military (auto-detected)
