@@ -124,7 +124,8 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
       if (typeof document !== 'undefined' && document.fonts) {
         const fontPromises = [
           document.fonts.load('105px EuroPlate'),
-          document.fonts.load('105px "Google Sans"')
+          document.fonts.load('105px "Google Sans"'),
+          document.fonts.load('105px Tratex')
         ];
         
         Promise.all(fontPromises).then(() => {
@@ -221,7 +222,7 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
       fontWeight: 'normal',
       letterSpacing: `${2 * scale}px`,
       whiteSpace: 'nowrap',
-      fontFamily: 'EuroPlate, sans-serif',
+      fontFamily: country === 'S' ? 'Tratex, Normal' : 'EuroPlate, sans-serif',
     };
     
     // Carbon fiber pattern - woven checkerboard
@@ -325,7 +326,7 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
               backgroundColor: plateBgColor,
               border: `${borderWidth}px solid ${country === 'A' ? 'transparent' : styles.borderColor}`,
               borderRadius: `${8 * scale}px`,
-              fontFamily: 'EuroPlate, sans-serif',
+              fontFamily: country === 'S' ? 'Tratex, Normal' : 'EuroPlate, sans-serif',
               transformStyle: 'preserve-3d',
               overflow: 'hidden',
               boxShadow: styles.is3D 

@@ -43,7 +43,7 @@ A Next.js application for generating EU license plates as PNG images – optimiz
 - **Language**: TypeScript
 - **UI**: React 19 with Tailwind CSS 4
 - **Screenshot**: modern-screenshot for cross-browser PNG export
-- **Font**: EuroPlate TTF (FE-Schrift)
+- **Font**: EuroPlate TTF (FE-Schrift), Tratex (Only Swedish plates)
 
 ## Getting Started
 
