@@ -90,7 +90,7 @@ function getCountryFeatures(country: string): {
 
 const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
   ({ config, scale = 1 }, ref) => {
-    const { cityCode, letters, numbers, suffix, showStatePlakette, showHUPlakette, state, city, huYear, huMonth, width, plateStyle, country, fontColor, backgroundColor, plateText, rightBandText, seasonalPlate } = config;
+    const { cityCode, letters, numbers, suffix, showStatePlakette, showHUPlakette, state, city, huYear, huMonth, width, plateStyle, plateType, country, fontColor, backgroundColor, plateText, rightBandText, seasonalPlate } = config;
     
     const contentRef = useRef<HTMLDivElement>(null);
     const plateRef = useRef<HTMLDivElement>(null);
@@ -167,7 +167,7 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
     const availableWidth = plateWidth - euBandWidth - rightBandWidth - seasonalPlateWidth - (borderWidth * 2) - (padding * 2);
     
     // Create a content key that changes when content changes - forces remeasurement
-    const contentKey = `${cityCode}-${letters}-${numbers}-${suffix}-${showStatePlakette}-${showHUPlakette}-${plateText}-${country}-${seasonalPlate?.startMonth}-${seasonalPlate?.endMonth}`;
+    const contentKey = `${cityCode}-${letters}-${numbers}-${suffix}-${showStatePlakette}-${showHUPlakette}-${plateText}-${plateType}-${country}-${seasonalPlate?.startMonth}-${seasonalPlate?.endMonth}`;
     
   // Measure content and calculate compression/width after render AND after font loads
   useLayoutEffect(() => {
@@ -585,7 +585,11 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
                   <span style={{ ...textStyle, transform: 'translateZ(15px)', transformStyle: 'preserve-3d' }}>{plateText || ''}</span>
                 </>
               ) : (
-                <span style={{ ...textStyle, transform: 'translateZ(15px)', transformStyle: 'preserve-3d' }}>{plateText || ''}</span>
+                <span style={{ ...textStyle, transform: 'translateZ(15px)', transformStyle: 'preserve-3d' }}>
+                  {country === 'S' ? (
+                    plateType === 'normal' ? `${plateText.slice(0, 3)}\u2009${plateText.slice(3, 6)}` : plateText
+                  ) : (plateText || '')}
+                </span>
               )}
             </div>
           </div>

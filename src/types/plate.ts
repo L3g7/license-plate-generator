@@ -1,6 +1,7 @@
 export type PlateWidth = 'compact' | 'standard';
 export type PlateSuffix = '' | 'E' | 'H';  // E = Elektro, H = Historisch (Oldtimer)
 export type PlateStyle = 'normal' | '3d-black-matte' | '3d-black-glossy' | '3d-carbon-matte' | '3d-carbon-glossy';
+export type PlateType = 'normal' | 'personalized';
 
 // Seasonal plate months (1-12)
 export interface SeasonalPlate {
@@ -81,6 +82,7 @@ export interface PlateConfig {
   country: EUCountry;
   width: PlateWidth;
   plateStyle: PlateStyle;
+  plateType: PlateType;
   fontColor: string;       // Hex color for text
   backgroundColor: string; // Hex color for plate background
   plateText: string;       // Generic plate text for non-German plates

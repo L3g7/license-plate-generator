@@ -50,6 +50,7 @@ export interface Translations {
   city: string;
   plateWidth: string;
   plateStyle: string;
+  plateType: string;
   huYear: string;
   huMonth: string;
   showStatePlakette: string;
@@ -69,6 +70,14 @@ export interface Translations {
   style3DCarbon: string;
   style3DBlackMatte: string;
   style3DCarbonMatte: string;
+  
+  // Plate types
+  plateTypeNormal: string;
+  plateTypePersonalized: string;
+  
+  // Swedish specific
+  lettersAndNumbers: string;
+  personalizedText: string;
   
   // Buttons
   exportPNG: string;
@@ -107,6 +116,7 @@ const translations: Record<Language, Translations> = {
     city: 'Stadt',
     plateWidth: 'Breite',
     plateStyle: 'Stil',
+    plateType: 'Kennzeichentyp',
     huYear: 'HU Jahr',
     huMonth: 'HU Monat',
     showStatePlakette: 'Wappen anzeigen',
@@ -122,6 +132,10 @@ const translations: Record<Language, Translations> = {
     style3DCarbon: '3D Carbon glänzend',
     style3DBlackMatte: '3D Schwarz matt',
     style3DCarbonMatte: '3D Carbon matt',
+    plateTypeNormal: 'Normal',
+    plateTypePersonalized: 'Personalisierte',
+    lettersAndNumbers: 'Buchstaben & Zahlen',
+    personalizedText: 'Personalisierter Text',
     exportPNG: 'Als PNG exportieren',
     exportFailed: 'Export fehlgeschlagen. Bitte versuche es erneut.',
     wappenAttribution: 'Wappen: Wikimedia Commons (Public Domain / CC)',
@@ -153,6 +167,7 @@ const translations: Record<Language, Translations> = {
     city: 'City',
     plateWidth: 'Width',
     plateStyle: 'Style',
+    plateType: 'Plate Type',
     huYear: 'Inspection Year',
     huMonth: 'Inspection Month',
     showStatePlakette: 'Show State Emblem',
@@ -168,6 +183,10 @@ const translations: Record<Language, Translations> = {
     style3DCarbon: '3D Carbon glossy',
     style3DBlackMatte: '3D Black matte',
     style3DCarbonMatte: '3D Carbon matte',
+    plateTypeNormal: 'Normal',
+    plateTypePersonalized: 'Personalized',
+    lettersAndNumbers: 'Letters & Numbers',
+    personalizedText: 'Personalized Text',
     exportPNG: 'Export as PNG',
     exportFailed: 'Export failed. Please try again.',
     wappenAttribution: 'Emblems: Wikimedia Commons (Public Domain / CC)',
@@ -199,6 +218,7 @@ const translations: Record<Language, Translations> = {
     city: 'Ville',
     plateWidth: 'Largeur',
     plateStyle: 'Style',
+    plateType: 'Type de plaque',
     huYear: 'Année contrôle',
     huMonth: 'Mois contrôle',
     showStatePlakette: 'Afficher emblème',
@@ -214,6 +234,10 @@ const translations: Record<Language, Translations> = {
     style3DCarbon: '3D Carbone brillant',
     style3DBlackMatte: '3D Noir mat',
     style3DCarbonMatte: '3D Carbone mat',
+    plateTypeNormal: 'Normal',
+    plateTypePersonalized: 'Personnalisé',
+    lettersAndNumbers: 'Lettres & Chiffres',
+    personalizedText: 'Texte personnalisé',
     exportPNG: 'Exporter en PNG',
     exportFailed: 'Échec de l\'export. Veuillez réessayer.',
     wappenAttribution: 'Emblèmes: Wikimedia Commons (Domaine public / CC)',
@@ -245,6 +269,7 @@ const translations: Record<Language, Translations> = {
     city: 'Ciudad',
     plateWidth: 'Ancho',
     plateStyle: 'Estilo',
+    plateType: 'Tipo de matrícula',
     huYear: 'Año ITV',
     huMonth: 'Mes ITV',
     showStatePlakette: 'Mostrar emblema',
@@ -260,6 +285,10 @@ const translations: Record<Language, Translations> = {
     style3DCarbon: '3D Carbono brillante',
     style3DBlackMatte: '3D Negro mate',
     style3DCarbonMatte: '3D Carbono mate',
+    plateTypeNormal: 'Normal',
+    plateTypePersonalized: 'Personalizada',
+    lettersAndNumbers: 'Letras y números',
+    personalizedText: 'Texto personalizado',
     exportPNG: 'Exportar como PNG',
     exportFailed: 'Error al exportar. Por favor, inténtalo de nuevo.',
     wappenAttribution: 'Emblemas: Wikimedia Commons (Dominio público / CC)',
@@ -291,6 +320,7 @@ const translations: Record<Language, Translations> = {
     city: 'Città',
     plateWidth: 'Larghezza',
     plateStyle: 'Stile',
+    plateType: 'Tipo targa',
     huYear: 'Anno revisione',
     huMonth: 'Mese revisione',
     showStatePlakette: 'Mostra stemma',
@@ -306,6 +336,10 @@ const translations: Record<Language, Translations> = {
     style3DCarbon: '3D Carbonio lucido',
     style3DBlackMatte: '3D Nero opaco',
     style3DCarbonMatte: '3D Carbonio opaco',
+    plateTypeNormal: 'Normale',
+    plateTypePersonalized: 'Personalizzata',
+    lettersAndNumbers: 'Lettere e numeri',
+    personalizedText: 'Testo personalizzato',
     exportPNG: 'Esporta come PNG',
     exportFailed: 'Esportazione fallita. Riprova.',
     wappenAttribution: 'Stemmi: Wikimedia Commons (Pubblico dominio / CC)',
@@ -337,6 +371,7 @@ const translations: Record<Language, Translations> = {
     city: 'Stad',
     plateWidth: 'Breedte',
     plateStyle: 'Stijl',
+    plateType: 'Kenteken type',
     huYear: 'APK Jaar',
     huMonth: 'APK Maand',
     showStatePlakette: 'Embleem tonen',
@@ -352,6 +387,10 @@ const translations: Record<Language, Translations> = {
     style3DCarbon: '3D Carbon glanzend',
     style3DBlackMatte: '3D Zwart mat',
     style3DCarbonMatte: '3D Carbon mat',
+    plateTypeNormal: 'Normaal',
+    plateTypePersonalized: 'Gepersonaliseerd',
+    lettersAndNumbers: 'Letters & cijfers',
+    personalizedText: 'Gepersonaliseerde tekst',
     exportPNG: 'Exporteren als PNG',
     exportFailed: 'Export mislukt. Probeer het opnieuw.',
     wappenAttribution: 'Emblemen: Wikimedia Commons (Publiek domein / CC)',
@@ -383,6 +422,7 @@ const translations: Record<Language, Translations> = {
     city: 'Miasto',
     plateWidth: 'Szerokość',
     plateStyle: 'Styl',
+    plateType: 'Typ tablicy',
     huYear: 'Rok przeglądu',
     huMonth: 'Miesiąc przeglądu',
     showStatePlakette: 'Pokaż godło',
@@ -398,6 +438,10 @@ const translations: Record<Language, Translations> = {
     style3DCarbon: '3D Carbon błyszczący',
     style3DBlackMatte: '3D Czarna matowa',
     style3DCarbonMatte: '3D Carbon matowy',
+    plateTypeNormal: 'Normalna',
+    plateTypePersonalized: 'Spersonalizowana',
+    lettersAndNumbers: 'Litery i cyfry',
+    personalizedText: 'Spersonalizowany tekst',
     exportPNG: 'Eksportuj jako PNG',
     exportFailed: 'Eksport nie powiódł się. Spróbuj ponownie.',
     wappenAttribution: 'Godła: Wikimedia Commons (Domena publiczna / CC)',
@@ -429,6 +473,7 @@ const translations: Record<Language, Translations> = {
     city: 'Cidade',
     plateWidth: 'Largura',
     plateStyle: 'Estilo',
+    plateType: 'Tipo de matrícula',
     huYear: 'Ano inspeção',
     huMonth: 'Mês inspeção',
     showStatePlakette: 'Mostrar emblema',
@@ -444,6 +489,10 @@ const translations: Record<Language, Translations> = {
     style3DCarbon: '3D Carbono brilhante',
     style3DBlackMatte: '3D Preto mate',
     style3DCarbonMatte: '3D Carbono mate',
+    plateTypeNormal: 'Normal',
+    plateTypePersonalized: 'Personalizada',
+    lettersAndNumbers: 'Letras e números',
+    personalizedText: 'Texto personalizado',
     exportPNG: 'Exportar como PNG',
     exportFailed: 'Falha na exportação. Tente novamente.',
     wappenAttribution: 'Emblemas: Wikimedia Commons (Domínio público / CC)',
@@ -475,6 +524,7 @@ const translations: Record<Language, Translations> = {
     city: 'Stad',
     plateWidth: 'Bredd',
     plateStyle: 'Stil',
+    plateType: 'Skylttyp',
     huYear: 'Besiktningsår',
     huMonth: 'Besiktningsmånad',
     showStatePlakette: 'Visa emblem',
@@ -490,6 +540,10 @@ const translations: Record<Language, Translations> = {
     style3DCarbon: '3D Kolfiber blank',
     style3DBlackMatte: '3D Svart matt',
     style3DCarbonMatte: '3D Kolfiber matt',
+    plateTypeNormal: 'Normal',
+    plateTypePersonalized: 'Personlig',
+    lettersAndNumbers: 'Bokstäver & siffror',
+    personalizedText: 'Personlig text',
     exportPNG: 'Exportera som PNG',
     exportFailed: 'Export misslyckades. Försök igen.',
     wappenAttribution: 'Emblem: Wikimedia Commons (Public Domain / CC)',
@@ -521,6 +575,7 @@ const translations: Record<Language, Translations> = {
     city: 'Město',
     plateWidth: 'Šířka',
     plateStyle: 'Styl',
+    plateType: 'Typ SPZ',
     huYear: 'Rok STK',
     huMonth: 'Měsíc STK',
     showStatePlakette: 'Zobrazit znak',
@@ -536,6 +591,10 @@ const translations: Record<Language, Translations> = {
     style3DCarbon: '3D Karbon lesklý',
     style3DBlackMatte: '3D Černá matná',
     style3DCarbonMatte: '3D Karbon matný',
+    plateTypeNormal: 'Normální',
+    plateTypePersonalized: 'Osobní',
+    lettersAndNumbers: 'Písmena a čísla',
+    personalizedText: 'Osobní text',
     exportPNG: 'Exportovat jako PNG',
     exportFailed: 'Export selhal. Zkuste to znovu.',
     wappenAttribution: 'Znaky: Wikimedia Commons (Public Domain / CC)',
