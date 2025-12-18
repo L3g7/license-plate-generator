@@ -23,12 +23,13 @@ interface LicensePlateProps {
 
 // Get styles based on plate style
 function getPlateStyles(style: PlateStyle, scale: number) {
-  const is3D = style !== 'normal';
+  const is3D = style !== 'normal' && style !== 'acrylic';
+  const isAcrylic = style === 'acrylic';
   const isGlossy = style.includes('glossy');
   const isCarbon = style.includes('carbon');
   const isBlack = style.includes('black');
   
-  const borderColor = '#000';
+  const borderColor = isAcrylic ? 'transparent' : '#000';
   
   // Text shadow - glossy has inner edge highlights for embossed look
   const textShadow = is3D 
@@ -48,7 +49,7 @@ function getPlateStyles(style: PlateStyle, scale: number) {
       `
     : 'none';
   
-  return { borderColor, textShadow, is3D, isGlossy, isCarbon, isBlack };
+  return { borderColor, textShadow, is3D, isAcrylic, isGlossy, isCarbon, isBlack };
 }
 
 // Country-specific plate features (visual elements, not colors - those come from config)
@@ -157,7 +158,7 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
     const standardWidth = baseSize.width * scale;
     
     const isDanishClassic = country === 'DK' && config.danishVariant === 'classic';
-    const fontSize = country === 'DK' && config.danishPlateType === 'type3' ? 90 * scale : 105 * scale;
+    const fontSize = country === 'DK' && config.danishPlateType === 'type3' ? 102 * scale : 122 * scale;
     const styles = getPlateStyles(plateStyle, scale);
     const minCompactWidth = (country === 'DK' ? baseSize.width : calculateCompactWidth(config)) * scale;
     const plateWidth = width === 'standard' ? standardWidth : (dynamicPlateWidth || minCompactWidth);
@@ -168,7 +169,8 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
     const textColor = fontColor;
     const plateBgColor = backgroundColor;
     const danishBorderColor = '#C8102E';
-    const plateBorderColor = (country === 'DK' || country === 'B') ? danishBorderColor : (country === 'A' || country === 'HR') ? 'transparent' : styles.borderColor;
+    // Acrylic border matches background color for seamless look, otherwise use country-specific colors
+    const plateBorderColor = styles.isAcrylic ? plateBgColor : (country === 'DK' || country === 'B') ? danishBorderColor : (country === 'A' || country === 'HR') ? 'transparent' : styles.borderColor;
     const redStripeHeight = 2 * scale;
     const hasUkBand = country === 'GB' && (showUKFlag || isEV);
     const ukBandWidth = hasUkBand ? 40 * scale : 0; // UK band width when shown
@@ -307,7 +309,7 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
           textShadow: styles.textShadow,
         };
     
-    const whiteBorderWidth = (styles.is3D || country === 'FL') ? 0 : 1.5 * scale;
+    const whiteBorderWidth = (styles.is3D || styles.isAcrylic || country === 'FL') ? 0 : 1.5 * scale;
     
     const formatDanishPlateText = (text: string, applySpacing: boolean = true) => {
       const clean = (text || '').toUpperCase().replace(/Q/g, '').replace(/[^A-Z0-9]/g, '').slice(0, 7);
@@ -344,7 +346,7 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
           style={{
             display: 'inline-block',
             padding: `${whiteBorderWidth}px`,
-            backgroundColor: styles.is3D ? 'transparent' : '#fff',
+            backgroundColor: (styles.is3D || styles.isAcrylic) ? 'transparent' : '#fff',
             borderRadius: `${10 * scale}px`,
             transform: `
               rotateX(${tilt.rotateX}deg) 
@@ -826,6 +828,32 @@ const LicensePlate = forwardRef<HTMLDivElement, LicensePlateProps>(
               <span style={{ letterSpacing: `${1 * scale}px` }}>{String(seasonalPlate.endMonth).padStart(2, '0')}</span>
             </div>
           )}
+
+          {/* Acrylic shine overlay - covers entire plate */}
+          {styles.isAcrylic && (
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: `
+                  linear-gradient(
+                    135deg,
+                    rgba(255,255,255,0.4) 0%,
+                    rgba(255,255,255,0.1) 30%,
+                    rgba(255,255,255,0) 50%,
+                    rgba(255,255,255,0.05) 70%,
+                    rgba(255,255,255,0.2) 100%
+                  )
+                `,
+                pointerEvents: 'none',
+                zIndex: 10,
+                borderRadius: `${6 * scale}px`,
+              }}
+            />
+          )}
         </div>
         </div>
       </div>
@@ -844,7 +872,7 @@ function getBasePlateSize(config: GermanPlateConfig): { width: number; height: n
       ? { width: 240, height: 165 }  // Type 3/5 square/tall
       : { width: 504, height: 120 }; // Type 1 standard Danish size
   }
-  return { width: 520, height: 110 };
+  return { width: 520, height: 120 };
 }
 
 // Calculate minimum width for compact mode

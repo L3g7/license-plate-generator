@@ -1,6 +1,6 @@
 export type PlateWidth = 'compact' | 'standard';
 export type PlateSuffix = '' | 'E' | 'H';  // E = Elektro, H = Historisch (Oldtimer)
-export type PlateStyle = 'normal' | '3d-black-matte' | '3d-black-glossy' | '3d-carbon-matte' | '3d-carbon-glossy';
+export type PlateStyle = 'normal' | 'acrylic' | '3d-black-matte' | '3d-black-glossy' | '3d-carbon-matte' | '3d-carbon-glossy';
 export type PlateType = 'normal' | 'personalized';
 export type DanishVariant = 'classic' | 'eu'; // Classic white edge vs. Euroband
 export type DanishPlateType = 'type1' | 'type3'; // Type 1 (504x120) vs. Type 3/5 (240x165)
@@ -13,6 +13,7 @@ export interface SeasonalPlate {
 
 export const PLATE_STYLE_NAMES: Record<PlateStyle, string> = {
   'normal': 'Normal (Standard)',
+  'acrylic': 'Acryl (Glänzend)',
   '3d-black-matte': '3D Schwarz Matt',
   '3d-black-glossy': '3D Schwarz Glänzend',
   '3d-carbon-matte': '3D Carbon Matt',

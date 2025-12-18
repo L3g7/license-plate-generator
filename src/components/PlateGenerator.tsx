@@ -813,6 +813,7 @@ export default function PlateGenerator() {
                 className="modern-select"
               >
                 <option value="normal">{t.styleNormal}</option>
+                <option value="acrylic">{t.styleAcrylic}</option>
                 <option value="3d-black-glossy">{t.style3DBlack}</option>
                 <option value="3d-carbon-glossy">{t.style3DCarbon}</option>
                 <option value="3d-black-matte">{t.style3DBlackMatte}</option>
